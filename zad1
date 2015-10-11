@@ -1,0 +1,4 @@
+(load "zad1_rules")
+(assert (animal-is duck))
+(run)
+(facts)
