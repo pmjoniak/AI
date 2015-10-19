@@ -1,0 +1,25 @@
+(deftemplate yes-no-answer
+  (slot answer
+    (type SYMBOL)
+    (allowed-symbols yes no)
+    (default yes)))
+
+(deftemplate game-data
+        (slot name)
+        (slot age)
+        (slot cost)
+        (slot need-interner-connectio)
+        (slot players)
+)
+
+(deffunction ask-yes-or-no (?question)
+   (printout t ?question " (yes or no) ")
+   (bind ?answer (read))
+   (while (and (neq ?answer yes) (neq ?answer no))
+      (printout t ?question " (yes or no) ")
+      (bind ?answer (read)))
+   (return ?answer))
+
+   (assert (need-internet (ask-yes-or-no "mam pytanie")))
+
+   (run)

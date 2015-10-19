@@ -1,4 +1,4 @@
-(load "zad1_rules.clp")
-(assert (animal-is duck))
+(load "labirynt.clp")
+(assert (pora-roku wiosna))
+(assert (stan-ziemi twarda))
 (run)
-(facts)
