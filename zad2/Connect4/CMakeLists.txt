@@ -56,7 +56,7 @@ set(LIBS ${LIBS} "Xxf86vm")
 
 
 set(LIBS ${LIBS} "${PROJECT_SOURCE_DIR}/lib/libglfw3.a")
-# set(LIBS ${LIBS} "${PROJECT_SOURCE_DIR}/lib64/libglfw3.a")
+#set(LIBS ${LIBS} "${PROJECT_SOURCE_DIR}/lib64/libglfw3.a")
 
 
 #-----------------------------------------------------------------------------

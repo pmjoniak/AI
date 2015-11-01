@@ -1,21 +1,21 @@
-#include<vector>
-#include<iostream>
-#include<algorithm>
-#include"Utils.h"
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <string>
+#include "Renderer.h"
+#include "Utils.h"
 #include "Board.h"
 #include "PerfectMove.h"
-#include "Renderer.h"
 #include "Controller.h"
-#include <string>
 
 void draw(Board& board);
 
 void clearConsole()
 {
 #ifdef _WIN32
-	system("cls");
+	//system("cls");
 #else
-	system("clear");
+	//system("clear");
 #endif
 }
 

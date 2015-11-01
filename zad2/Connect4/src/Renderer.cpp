@@ -1,5 +1,5 @@
 #include "Renderer.h"
-
+#include <cmath>
 
 Renderer::Renderer(Board& board, int width, int height) : width{ width }, height{ height }, board{ board }
 {

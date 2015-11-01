@@ -1,10 +1,10 @@
 #pragma once
-#include "Board.h"
-#include "Controller.h"
-#include <GLFW/glfw3.h>
 #include <memory>
 #include <chrono>
 #include <thread>
+#include <GLFW/glfw3.h>
+#include "Board.h"
+#include "Controller.h"
 
 class Renderer
 {
@@ -14,7 +14,7 @@ private:
 
 private:
 	clock_source::time_point next_frame = clock_source::now();
-	void Renderer::wait(int frame_count);
+	void wait(int frame_count);
 
 private:
 	GLFWwindow *window;

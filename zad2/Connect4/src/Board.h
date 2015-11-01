@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 #define NONE 2
 #define RED 0
