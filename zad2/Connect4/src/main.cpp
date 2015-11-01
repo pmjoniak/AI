@@ -4,65 +4,109 @@
 #include"Utils.h"
 #include "Board.h"
 #include "PerfectMove.h"
-
-
-#define WIN 10000
-
-
-float h(Board& board, int color)
-{
-	if (board.win == color)
-		return WIN;
-	if (board.win == !color)
-		return -WIN;
-	return 0;
-}
-
-
-
-
+#include "Renderer.h"
+#include "Controller.h"
+#include <string>
 
 void draw(Board& board);
 
+void clearConsole()
+{
+#ifdef _WIN32
+	system("cls");
+#else
+	system("clear");
+#endif
+}
 
 int main()
 {
-	Board board;
-	int idx = 0;
-	int player = 0;
-	//board.load("save.txt", 0);
+	Board board(YELLOW);
+	
+	auto controller = std::make_shared<Controller>(board);
+	controller->players[RED] = std::make_unique<AIPlayer>(10);
+	controller->players[YELLOW] = std::make_unique<HumanPlayer>();
+
 	while (1)
 	{
-		draw(board);
-		if (player == 0)
+		board.clear(RED);
+		//parse args
+		clearConsole();
+		std::cout << "Welcome to Connect4.\n"
+			"Configure gameplay, possible commands:\n\n"
+			"-[color]:(h|ai-[depth]) -- configure players color can by 'y' or 'r'\n\n"
+			"-s:[color] -- select first player\n\n"
+			"-p -- play\n\n"
+			"> ";
+		while (1)
 		{
-			gotoxy(0, 23);
-			std::cout << "Gdzie zrzucic(0-6)? ";
-			int pos;
-			std::cin >> pos;
-			if (pos == 9)
-				board.save("save.txt");
-			if (pos < 0 || pos > 6)
+			std::string arg;
+			std::cin >> arg;
+			if (arg.size() >= 2 && arg[0] == '-')
 			{
-				std::cout << "nie!!";
-				continue;
+				if (arg[1] == 'r' || arg[1] == 'y')
+				{
+					if (arg[3] == 'h')
+					{
+						controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<HumanPlayer>();
+						std::cout << "Player set to Human\n> ";
+					}
+					if (arg[3] == 'a' && arg[4] == 'i')
+					{
+						int depth = atoi(&arg[6]);
+						controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<AIPlayer>(depth);
+						std::cout << "Player set to AI with depth " << depth << "\n> ";
+					}
+				}
+				if (arg[1] == 's')
+				{
+					board.current_color = (arg[3] == 'r' ? RED : YELLOW);
+					std::cout << "First player set\n> ";
+				}
+				if (arg[1] == 'p')
+					break;
 			}
-			if (!board.move(pos, idx)) continue;
 		}
-		else
 		{
-			PerfectMove perfect_move(board, h);
-			board.move(perfect_move.findPerfectMove(board.current_color, 7), idx);
+			std::unique_ptr<Renderer> renderer = std::make_unique<Renderer>(board, 480, 480);
+			renderer->setController(controller);
+			renderer->run();
 		}
-		if (board.win != NONE)
-		{
-			draw(board);
-			gotoxy(0, 24);
-			std::cout << "Player: " << (player == YELLOW ? 'x' : 'o') << " win\n";
-			return 0;
-		}
-		player = !player;
 	}
+
+
+	//while (1)
+	//{
+	//	draw(board);
+	//	if (player == 0)
+	//	{
+	//		gotoxy(0, 23);
+	//		std::cout << "Gdzie zrzucic(0-6)? ";
+	//		int pos;
+	//		std::cin >> pos;
+	//		if (pos == 9)
+	//			board.save("save.txt");
+	//		if (pos < 0 || pos > 6)
+	//		{
+	//			std::cout << "nie!!";
+	//			continue;
+	//		}
+	//		if (!board.move(pos, idx)) continue;
+	//	}
+	//	else
+	//	{
+	//		PerfectMove perfect_move(board, h);
+	//		board.move(perfect_move.findPerfectMove(board.current_color, 7), idx);
+	//	}
+	//	if (board.win != NONE)
+	//	{
+	//		draw(board);
+	//		gotoxy(0, 24);
+	//		std::cout << "Player: " << (player == YELLOW ? 'x' : 'o') << " win\n";
+	//		return 0;
+	//	}
+	//	player = !player;
+	//}
 }
 
 

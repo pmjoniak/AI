@@ -12,14 +12,14 @@ private:
 
 	struct res
 	{
-		int result = -1;
+		float result = -1;
 		int move = -1;
 	};
 
 public:
 	PerfectMove(Board& board, std::function<float(Board&, int)> h);
 
-	int findPerfectMove(int color, int depth);
+	float findPerfectMove(int color, int depth);
 
-	int recursiveMinMax(bool maximize, int depth);
+	float recursiveMinMax(bool maximize, int depth, float alpha, float beta);
 };

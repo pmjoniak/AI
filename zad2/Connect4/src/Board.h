@@ -9,10 +9,11 @@ class Board
 {
 public:
 	std::vector<std::vector<int>> board;
-	int win;
-	int current_color;
+	int win = NONE;
+	int current_color = RED;
 
-	Board();
+	Board(int start_color = RED);
+	void clear(int start_color = RED);
 
 	bool move(int pos, int& idx);
 	void retract(int pos, int idx);

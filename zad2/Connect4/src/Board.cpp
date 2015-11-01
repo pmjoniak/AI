@@ -2,10 +2,17 @@
 #include "Board.h"
 #include <fstream>
 
-Board::Board()
+Board::Board(int start_color)
+{
+	clear(start_color);
+}
+
+
+void Board::clear(int start_color)
 {
 	board = std::vector<std::vector<int>>(7, std::vector<int>(6, NONE));
-	current_color = RED;
+	current_color = start_color;
+	win = NONE;
 }
 
 bool Board::move(int pos, int& idx)
@@ -26,6 +33,7 @@ void Board::retract(int pos, int idx)
 {
 	board[pos][idx] = NONE;
 	current_color = !current_color;
+	win = NONE;
 }
 
 void Board::checkWin(int x, int y, int color)
