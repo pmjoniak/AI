@@ -45,7 +45,8 @@ aux_source_directory("src" SRC)
 set(LIBS ${LIBS} "GL")
 set(LIBS ${LIBS} "SM")
 
-set(LIBS ${LIBS} "dl")
+set(LIBS ${LIBS} "${PROJECT_SOURCE_DIR}/lib/libglfw3.a")
+
 set(LIBS ${LIBS} "X11")
 set(LIBS ${LIBS} "Xcursor")
 set(LIBS ${LIBS} "Xext")
@@ -53,9 +54,9 @@ set(LIBS ${LIBS} "Xi")
 set(LIBS ${LIBS} "Xinerama")
 set(LIBS ${LIBS} "Xrandr")
 set(LIBS ${LIBS} "Xxf86vm")
+set(LIBS ${LIBS} "dl")
 
 
-set(LIBS ${LIBS} "${PROJECT_SOURCE_DIR}/lib/libglfw3.a")
 #set(LIBS ${LIBS} "${PROJECT_SOURCE_DIR}/lib64/libglfw3.a")
 
 
