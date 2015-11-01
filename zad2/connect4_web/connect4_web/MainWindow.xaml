@@ -1,0 +1,8 @@
+﻿<Window x:Class="connect4_web.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <WebBrowser x:Name="web_browser" Margin="0,0,0,0"/>
+    </Grid>
+</Window>

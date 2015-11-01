@@ -1,0 +1,13 @@
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\bin\Debug\connect4_web.exe.config
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\bin\Debug\connect4_web.exe
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\bin\Debug\connect4_web.pdb
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.csprojResolveAssemblyReference.cache
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\MainWindow.baml
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\MainWindow.g.cs
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\App.g.cs
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web_MarkupCompile.cache
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.g.resources
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.Properties.Resources.resources
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.csproj.GenerateResource.Cache
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.exe
+C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.pdb
