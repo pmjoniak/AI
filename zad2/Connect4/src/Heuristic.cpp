@@ -5,7 +5,7 @@
 
 bool used[7][6][4];
 
-float strength1D(Board& b, int x, int y, int color, int dx, int dy, bool type)
+float strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
 {
 	if (used[x][y][type]) return 0;
 	float sum = 1;
@@ -61,19 +61,19 @@ float strength(Board& b, int x, int y, int color)
 	return sum;
 }
 
-float h(Board& board, int color)
+float h(Board& board, int color, int depth)
 {
 	if (board.win == color)
-		return WIN;
+		return (float)(WIN+depth);
 	if (board.win == !color)
-		return -WIN;
+		return -(float)(WIN + depth);
 
 	for (int x = 0; x < 7; x++)
 		for (int y = 0; y < 6; y++)
 			for (int b = 0; b < 4; b++)
 				used[x][y][b] = false;
 
-	int sum = 0;
+	float sum = 0;
 	for (int x = 0; x < 7; x++)
 	{
 		for (int y = 0; y < 6; y++)

@@ -114,7 +114,7 @@ void Renderer::drawBoard()
 			glPushMatrix();
 
 			glColor3f(0, 0, 1);
-			glTranslatef(x * 60 + 30 + 30, 480 - (y * 60 + 30 + 30),0);
+			glTranslatef(x * 60.0f + 30 + 30, 480 - (y * 60.0f + 30 + 30),0);
 			glBegin(GL_QUADS);
 				glVertex3f(-30, -30, -0.01f);
 				glVertex3f(30, -30, - 0.01f);
@@ -131,7 +131,7 @@ void Renderer::drawBoard()
 
 			glBegin(GL_TRIANGLE_FAN);
 				glVertex2f(0, 0);
-				for (float a = 0; a <= 2 * 3.3; a += 0.1)
+				for (float a = 0; a <= 2 * 3.3; a += 0.1f)
 					glVertex2f(25 * std::cos(a), 25 * std::sin(a));
 			glEnd();
 
@@ -141,13 +141,13 @@ void Renderer::drawBoard()
 
 	if (cy > 30 && cy < 450 && cx > 30 && cx < 450)
 	{
-		int x = ((cx - 30) / 60) * 60 + 60;
+		float x = (int)((cx - 30) / 60) * 60.0f + 60;
 		glPushMatrix();
 			glTranslatef(x , 60 , 0);
 			if (board.current_color == YELLOW) glColor3f(1, 1, 0);	else glColor3f(1, 0, 0);
 			glBegin(GL_TRIANGLE_FAN);
 				glVertex2f(0, 0);
-				for (float a = 0; a <= 2 * 3.3; a += 0.1)
+				for (float a = 0; a <= 2 * 3.3; a += 0.1f)
 					glVertex2f(25 * std::cos(a), 25 * std::sin(a));
 			glEnd();
 		glPopMatrix();
@@ -164,11 +164,11 @@ void Renderer::drawBoard()
 		}
 
 		glPushMatrix();
-		glTranslatef(to_drop * 60 + 60, y * 60 + 120, 0.01);
+		glTranslatef(to_drop * 60.0f + 60, y * 60.0f + 120, 0.01f);
 		if (board.current_color == YELLOW) glColor3f(1, 1, 0);	else glColor3f(1, 0, 0);
 		glBegin(GL_TRIANGLE_FAN);
 		glVertex2f(0, 0);
-		for (float a = 0; a <= 2 * 3.3; a += 0.1)
+		for (float a = 0; a <= 2 * 3.3; a += 0.1f)
 			glVertex2f(25 * std::cos(a), 25 * std::sin(a));
 		glEnd();
 		glPopMatrix();

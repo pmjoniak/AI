@@ -8,7 +8,7 @@ class PerfectMove
 private:
 	Board& board;
 	int start_color; 
-	std::function<float(Board&, int)> h;
+	std::function<float(Board&, int, int)> h;
 
 	struct res
 	{
@@ -17,9 +17,9 @@ private:
 	};
 
 public:
-	PerfectMove(Board& board, std::function<float(Board&, int)> h);
+	PerfectMove(Board& board, std::function<float(Board&, int, int)> h);
 
-	float findPerfectMove(int color, int depth);
+	int findPerfectMove(int color, int depth);
 
 	float recursiveMinMax(bool maximize, int depth, float alpha, float beta);
 };

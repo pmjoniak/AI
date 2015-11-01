@@ -1,6 +1,7 @@
 ﻿using mshtml;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace connect4_web
 		private static DispatcherTimer zombie = new DispatcherTimer();
 		private static DispatcherTimer necromancer = new DispatcherTimer();
 
-		int[] tab = new int[7]{0,0,0,0,0,0,0};
+        private Board board = new Board(Board.RED);
 
 		public MainWindow()
 		{
@@ -58,26 +59,24 @@ namespace connect4_web
 						.OfType<IHTMLElement>()
 						.Select(element => element.getAttribute("value"))
 						.FirstOrDefault();
+            int idx_tmp;
 			if (last != null && last != "")
 			{
 				int info = int.Parse(last);
 				if (info == 8)
 					return;
-				if(info == 7)
-					for(int i = 0; i < 7; i++)
-						tab[i] = 0;
-				else
-					tab[info]++;
+                if (info == 7)
+                    board.clear(Board.RED);
+                else
+                    board.move(info, out idx_tmp);
 			}
 
 			if(value == "User's turn.")
 			{
-				Random r = new Random();
-				int idx = r.Next(0, 6);
-				while(tab[idx] >= 6) idx = r.Next(0, 7);
-				
+                PerfectMove pm = new PerfectMove(board);
+                int idx = pm.findPerfectMove(Board.RED, 5);
+                board.move(idx, out idx_tmp);
 				web_browser.InvokeScript("dropIt", idx);
-				tab[idx]++;
 				zombie.IsEnabled = false;
 				necromancer.IsEnabled = true;
 			}
@@ -85,7 +84,8 @@ namespace connect4_web
 
 		void MainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			web_browser.Navigate("C:/Users/Pawel/Desktop/gra/iconnect4.html");
+            var dir = Directory.GetCurrentDirectory();
+			web_browser.Navigate(dir + "/../../../gra/iconnect4.html");
 			web_browser.Navigated += web_browser_Navigated;
 		}
 

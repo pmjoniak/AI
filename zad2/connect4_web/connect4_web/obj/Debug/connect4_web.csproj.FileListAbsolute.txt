@@ -11,3 +11,16 @@ C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.Properti
 C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.csproj.GenerateResource.Cache
 C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.exe
 C:\Users\Pawel\Desktop\connect4_web\connect4_web\obj\Debug\connect4_web.pdb
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\bin\Debug\connect4_web.exe.config
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web.exe
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web.pdb
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\MainWindow.baml
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\MainWindow.g.cs
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\App.g.cs
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web_MarkupCompile.cache
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web.g.resources
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web.Properties.Resources.resources
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\obj\Debug\connect4_web.csproj.GenerateResource.Cache
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\bin\Debug\connect4_web.exe
+C:\Users\Admin\Documents\GitHub\AI\zad2\connect4_web\connect4_web\bin\Debug\connect4_web.pdb

@@ -24,7 +24,7 @@ int main()
 	Board board(YELLOW);
 	
 	auto controller = std::make_shared<Controller>(board);
-	controller->players[RED] = std::make_unique<AIPlayer>(10);
+	controller->players[RED] = std::make_unique<AIPlayer>();
 	controller->players[YELLOW] = std::make_unique<HumanPlayer>();
 
 	while (1)
@@ -37,6 +37,7 @@ int main()
 			"-[color]:(h|ai-[depth]) -- configure players color can by 'y' or 'r'\n\n"
 			"-s:[color] -- select first player\n\n"
 			"-p -- play\n\n"
+			"-q -- exit\n\n"
 			"> ";
 		while (1)
 		{
@@ -65,6 +66,8 @@ int main()
 				}
 				if (arg[1] == 'p')
 					break;
+				if (arg[1] == 'q')
+					return 0;
 			}
 		}
 		{
@@ -107,6 +110,7 @@ int main()
 	//	}
 	//	player = !player;
 	//}
+	return 0;
 }
 
 

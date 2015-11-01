@@ -4,13 +4,13 @@
 #include <algorithm>
 #include <iostream>
 
-PerfectMove::PerfectMove(Board& board, std::function<float(Board&, int)> h)
+PerfectMove::PerfectMove(Board& board, std::function<float(Board&, int, int)> h)
 	: board(board), h(h)
 {
 
 }
 
-float PerfectMove::findPerfectMove(int color, int depth)
+int PerfectMove::findPerfectMove(int color, int depth)
 {
 	start_color = color;
 	std::vector<res> results;
@@ -30,7 +30,7 @@ float PerfectMove::findPerfectMove(int color, int depth)
 		return r1.result > r2.result;
 	});
 	float best = results[0].result;
-	int count = 0;
+	unsigned int count = 0;
 	for (count = 1; count < results.size(); count++)
 		if (results[count].result < best)
 			break;
@@ -42,7 +42,7 @@ float PerfectMove::findPerfectMove(int color, int depth)
 float PerfectMove::recursiveMinMax(bool maximize, int depth, float alpha, float beta)
 {
 	if (depth <= 0 || board.win != NONE)
-		return h(board, start_color);
+		return h(board, start_color, depth);
 
 	int idx;
 	bool any = false;
@@ -69,6 +69,6 @@ float PerfectMove::recursiveMinMax(bool maximize, int depth, float alpha, float 
 		}
 	}
 	if (!any)
-		return h(board, start_color);
+		return h(board, start_color, depth);
 	return best;
 }
