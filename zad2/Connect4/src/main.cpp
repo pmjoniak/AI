@@ -19,13 +19,89 @@ void clearConsole()
 #endif
 }
 
-int main()
+void shool()
+{
+	srand(time(NULL));
+	Board board(YELLOW);
+	Heuristic h_best;
+	Heuristic h_new;
+	h_best.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
+	//h_best.params = { 1, 1, 1, 1, 1, 1 };
+	int idx;
+	while (1)
+	{
+		h_new.params = h_best.params;
+		h_new.params[rand() % 6] *= (1.0f + (float)((rand() % 10000) - 5000) / 25000.0f);
+		//h_new.params[r] = h_new.params[r] + ((float)((rand() % 10000) - 5000) / 10000.0f);
+		std::map<int, std::unique_ptr<AIPlayer>> players;
+		players[RED] = std::make_unique<AIPlayer>(&h_best, 6);
+		players[YELLOW] = std::make_unique<AIPlayer>(&h_new, 6);
+
+		int win_best = 0;
+		int win_new = 0;
+		for (int i = 0; i < 100; i++)
+		{
+			board.clear(rand() % 2);
+			while (board.win == NONE)
+			{
+				int move = players[board.current_color]->move(board);
+				if (move != -1) board.move(move, idx); else break;
+			}
+			if (board.win == RED) win_best++;
+			else if (board.win == YELLOW) win_new++;
+			//std::cout << i << ": " << win_best << " : " << win_new << "\n";
+		}
+		std::cout << win_best << " : " << win_new << "\n";
+		if (win_new > win_best)
+			h_best.params = h_new.params;
+		std::cout << "params: [" << h_best.params[0] << ", " << h_best.params[1] << ", " << h_best.params[2] << ", " << h_best.params[3] << ", " << h_best.params[4] << ", " << h_best.params[5] << "]\n";
+	}
+}
+
+void test()
 {
 	Board board(YELLOW);
-	
+	Heuristic h_best;
+	Heuristic h_new;
+	int idx;
+	h_best.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
+	h_new.params = { 0.0331f, 0.1287f, 0.0316f, 0.338f, 0.4693f, 0.00061f };
+	std::map<int, std::unique_ptr<AIPlayer>> players;
+	players[RED] = std::make_unique<AIPlayer>(&h_best, 4);
+	players[YELLOW] = std::make_unique<AIPlayer>(&h_new, 4);
+
+	int win_best = 0;
+	int win_new = 0;
+	for (int i = 0; i < 10000; i++)
+	{
+		board.clear(rand() % 2);
+		while (board.win == NONE)
+		{
+			int move = players[board.current_color]->move(board);
+			if (move != -1) board.move(move, idx); else break;
+		}
+		if (board.win == RED) win_best++;
+		else if (board.win == YELLOW) win_new++;
+		std::cout << i << ": " << win_best << " : " << win_new << "\n";
+	}
+	//std::cout << win_best << " : " << win_new << "\n";
+}
+
+int main()
+{
+	//test();
+	shool();
+
+	Board board(YELLOW);
+	Heuristic h;
+	h.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
+	Heuristic h2;
+	h2.params = { 0.0331f, 0.1287f, 0.0316f, 0.338f, 0.4693f, 0.00061f };
+
 	auto controller = std::make_shared<Controller>(board);
-	controller->players[RED] = std::make_unique<AIPlayer>();
-	controller->players[YELLOW] = std::make_unique<HumanPlayer>();
+	controller->players[RED] = std::make_unique<AIPlayer>(&h);
+	controller->players[YELLOW] = std::make_unique<AIPlayer>(&h2);
+	//controller->players[YELLOW] = std::make_unique<HumanPlayer>();
 
 	while (1)
 	{
@@ -55,7 +131,7 @@ int main()
 					if (arg[3] == 'a' && arg[4] == 'i')
 					{
 						int depth = atoi(&arg[6]);
-						controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<AIPlayer>(depth);
+						controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<AIPlayer>(&h, depth);
 						std::cout << "Player set to AI with depth " << depth << "\n> ";
 					}
 				}

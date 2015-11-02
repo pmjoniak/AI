@@ -1,15 +1,16 @@
 #include "Heuristic.h"
 #include "Board.h"
 
-#define WIN 10000
+Heuristic::Heuristic()
+{
+	params = std::vector<float>(6);
+}
 
-bool used[7][6][4];
-
-float strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
+float Heuristic::strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
 {
 	if (used[x][y][type]) return 0;
-	float sum = 1;
-	float block = 0;
+	int sum = 1;
+	int block = 0;
 	for (int i = 1; i < 4; i++)
 	{
 		int xx = x + dx*i;
@@ -18,12 +19,12 @@ float strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
 		{
 			if (b.board[xx][yy] == color)
 			{
-				sum += 1;
+				sum++;
 				used[xx][yy][type] = true;
 			}
 			else
 			{
-				if (b.board[xx][yy] == NONE) block += 0.5;
+				if (b.board[xx][yy] == NONE) block++;
 				break;
 			}
 		}
@@ -36,22 +37,22 @@ float strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
 		{
 			if (b.board[xx][yy] == color)
 			{
-				sum += 1;
+				sum ++;
 				used[xx][yy][type] = true;
 			}
 			else
 			{
-				if (b.board[xx][yy] == NONE) block += 0.5;
+				if (b.board[xx][yy] == NONE) block++;
 				break;
 			}
 		}
 	}
 	used[x][y][type] = true;
-	if (block < 0.001) return 0;
-	else return sum + block;
+	if (block == 0) return 0;
+	else return params[(sum-1)*2+block-1];
 }
 
-float strength(Board& b, int x, int y, int color)
+float Heuristic::strength(Board& b, int x, int y, int color)
 {
 	float sum = 0;
 	sum += strength1D(b, x, y, color, 1, 0, 0);
@@ -61,7 +62,7 @@ float strength(Board& b, int x, int y, int color)
 	return sum;
 }
 
-float h(Board& board, int color, int depth)
+float Heuristic::h(Board& board, int color, int depth)
 {
 	if (board.win == color)
 		return (float)(WIN+depth);

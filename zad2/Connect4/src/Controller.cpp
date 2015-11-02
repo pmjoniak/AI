@@ -13,9 +13,19 @@ void Controller::process()
 	int i;
 	if (players.at(board.current_color)->type == PlayerType::AI)
 	{
-		board.move(players.at(board.current_color)->move(board), i);
-		if (board.win != NONE)
-			std::cout << "Player: " << (board.win == YELLOW ? "YELLOW" : "RED") << " win!!\n";
+		int move = players.at(board.current_color)->move(board);
+		if (move != -1)
+		{
+			board.move(move, i);
+			if (board.win != NONE)
+				std::cout << "Player: " << (board.win == YELLOW ? "YELLOW" : "RED") << " win!!\n";
+		}
+		else
+		{
+			std::cout << "Draw!!\n";
+			board.win = RED;
+		}
+
 	}
 }
 

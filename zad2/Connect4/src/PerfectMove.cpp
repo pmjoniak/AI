@@ -29,14 +29,15 @@ int PerfectMove::findPerfectMove(int color, int depth)
 	std::sort(results.begin(), results.end(), [](const res& r1, const res& r2){
 		return r1.result > r2.result;
 	});
+	if (results.empty()) return -1;
 	float best = results[0].result;
 	unsigned int count = 0;
 	for (count = 1; count < results.size(); count++)
 		if (results[count].result < best)
 			break;
 			
-	//return results[rand() % count].move;
-	return results[0].move;
+	return results[rand() % count].move;
+	//return results[0].move;
 }
 
 float PerfectMove::recursiveMinMax(bool maximize, int depth, float alpha, float beta)
