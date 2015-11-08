@@ -1,12 +1,12 @@
-#include "Heuristic.h"
+#include "HeuristicSimple.h"
 #include "Board.h"
 
-Heuristic::Heuristic()
+HeuristicSimple::HeuristicSimple()
 {
 	params = std::vector<float>(6);
 }
 
-float Heuristic::strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
+float HeuristicSimple::strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
 {
 	if (used[x][y][type]) return 0;
 	int sum = 1;
@@ -52,7 +52,7 @@ float Heuristic::strength1D(Board& b, int x, int y, int color, int dx, int dy, i
 	else return params[(sum-1)*2+block-1];
 }
 
-float Heuristic::strength(Board& b, int x, int y, int color)
+float HeuristicSimple::strength(Board& b, int x, int y, int color)
 {
 	float sum = 0;
 	sum += strength1D(b, x, y, color, 1, 0, 0);
@@ -62,7 +62,7 @@ float Heuristic::strength(Board& b, int x, int y, int color)
 	return sum;
 }
 
-float Heuristic::h(Board& board, int color, int depth)
+float HeuristicSimple::h(Board& board, int color, int depth)
 {
 	if (board.win == color)
 		return (float)(WIN+depth);

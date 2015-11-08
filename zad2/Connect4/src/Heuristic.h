@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 
 class Board;
 #define WIN 10000
@@ -7,14 +6,5 @@ class Board;
 class Heuristic
 {
 public:
-	Heuristic();
-	float h(Board& board, int color, int depth);
-	std::vector<float> params;
-
-private:
-	bool used[7][6][4];
-	
-private:
-	float strength(Board& b, int x, int y, int color);
-	float strength1D(Board& b, int x, int y, int color, int dx, int dy, int type);
+	virtual float h(Board& board, int color, int depth) = 0;
 };

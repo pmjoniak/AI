@@ -9,6 +9,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Heuristic">
+      <UniqueIdentifier>{7ee34b3f-137a-425c-a665-f783f49778ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,8 +29,14 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Heuristic.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="HeuristicWin.cpp">
+      <Filter>Source Files\Heuristic</Filter>
+    </ClCompile>
+    <ClCompile Include="HeuristicSimple.cpp">
+      <Filter>Source Files\Heuristic</Filter>
+    </ClCompile>
+    <ClCompile Include="HeuristicAdv.cpp">
+      <Filter>Source Files\Heuristic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -49,8 +58,17 @@
     <ClInclude Include="Player.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeuristicWin.h">
+      <Filter>Source Files\Heuristic</Filter>
+    </ClInclude>
+    <ClInclude Include="HeuristicSimple.h">
+      <Filter>Source Files\Heuristic</Filter>
+    </ClInclude>
+    <ClInclude Include="HeuristicAdv.h">
+      <Filter>Source Files\Heuristic</Filter>
+    </ClInclude>
     <ClInclude Include="Heuristic.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Heuristic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

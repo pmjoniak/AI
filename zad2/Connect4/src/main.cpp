@@ -7,15 +7,18 @@
 #include "Board.h"
 #include "PerfectMove.h"
 #include "Controller.h"
+#include "HeuristicSimple.h"
+#include "HeuristicWin.h"
+#include "HeuristicAdv.h"
 
 void draw(Board& board);
 
 void clearConsole()
 {
 #ifdef _WIN32
-	//system("cls");
+	system("cls");
 #else
-	//system("clear");
+	system("clear");
 #endif
 }
 
@@ -23,8 +26,8 @@ void shool()
 {
 	srand(time(NULL));
 	Board board(YELLOW);
-	Heuristic h_best;
-	Heuristic h_new;
+	HeuristicSimple h_best;
+	HeuristicSimple h_new;
 	h_best.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
 	//h_best.params = { 1, 1, 1, 1, 1, 1 };
 	int idx;
@@ -61,14 +64,17 @@ void shool()
 void test()
 {
 	Board board(YELLOW);
-	Heuristic h_best;
-	Heuristic h_new;
+	HeuristicSimple h_best;
+	HeuristicAdv h_new;
 	int idx;
-	h_best.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
-	h_new.params = { 0.0331f, 0.1287f, 0.0316f, 0.338f, 0.4693f, 0.00061f };
+	//h_best.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
+	h_best.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f };
+	//h_new.params = { 0.0331f, 0.1287f, 0.0316f, 0.338f, 0.4693f, 0.00061f };
+	h_new.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f };
+	//h_new.params = { 0.022562f, 0.096799f, 0.1915f, 0.493391f, 0.79207f, 1.21447f };
 	std::map<int, std::unique_ptr<AIPlayer>> players;
-	players[RED] = std::make_unique<AIPlayer>(&h_best, 4);
-	players[YELLOW] = std::make_unique<AIPlayer>(&h_new, 4);
+	players[RED] = std::make_unique<AIPlayer>(&h_best, 5);
+	players[YELLOW] = std::make_unique<AIPlayer>(&h_new, 5);
 
 	int win_best = 0;
 	int win_new = 0;
@@ -90,18 +96,18 @@ void test()
 int main()
 {
 	//test();
-	shool();
+	//shool();
 
 	Board board(YELLOW);
-	Heuristic h;
-	h.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
-	Heuristic h2;
-	h2.params = { 0.0331f, 0.1287f, 0.0316f, 0.338f, 0.4693f, 0.00061f };
+	HeuristicSimple h;
+	h.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f  };
+	HeuristicAdv h_adv;
+	h_adv.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
 
 	auto controller = std::make_shared<Controller>(board);
-	controller->players[RED] = std::make_unique<AIPlayer>(&h);
-	controller->players[YELLOW] = std::make_unique<AIPlayer>(&h2);
-	//controller->players[YELLOW] = std::make_unique<HumanPlayer>();
+	controller->players[RED] = std::make_unique<AIPlayer>(&h, 5);
+	//controller->players[YELLOW] = std::make_unique<AIPlayer>(&h, 6);
+	controller->players[YELLOW] = std::make_unique<HumanPlayer>();
 
 	while (1)
 	{
@@ -131,7 +137,10 @@ int main()
 					if (arg[3] == 'a' && arg[4] == 'i')
 					{
 						int depth = atoi(&arg[6]);
-						controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<AIPlayer>(&h, depth);
+						if (depth >= 6)
+							controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<AIPlayer>(&h_adv, depth);
+						else 
+							controller->players[(arg[1] == 'r' ? RED : YELLOW)] = std::make_unique<AIPlayer>(&h, depth);
 						std::cout << "Player set to AI with depth " << depth << "\n> ";
 					}
 				}

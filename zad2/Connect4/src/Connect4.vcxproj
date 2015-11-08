@@ -89,7 +89,9 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Controller.cpp" />
-    <ClCompile Include="Heuristic.cpp" />
+    <ClCompile Include="HeuristicAdv.cpp" />
+    <ClCompile Include="HeuristicSimple.cpp" />
+    <ClCompile Include="HeuristicWin.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PerfectMove.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -98,6 +100,9 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Heuristic.h" />
+    <ClInclude Include="HeuristicAdv.h" />
+    <ClInclude Include="HeuristicSimple.h" />
+    <ClInclude Include="HeuristicWin.h" />
     <ClInclude Include="PerfectMove.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
