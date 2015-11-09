@@ -14,6 +14,8 @@ public:
 
 	std::map<int, std::unique_ptr<Player>> players;
 
+	Heuristic* h;
+
 private:
 	Board& board;
 };

@@ -1,5 +1,7 @@
 #include "HeuristicAdv.h"
 #include "Board.h"
+#include <list>
+#include <algorithm>
 
 HeuristicAdv::HeuristicAdv()
 {
@@ -9,8 +11,8 @@ HeuristicAdv::HeuristicAdv()
 float HeuristicAdv::strength1D(Board& b, int x, int y, int color, int dx, int dy, int type)
 {
 	if (used[x][y][type]) return 0;
-	int sum = 1;
-	int empty = 0;
+	std::list<bool> data;
+	data.push_back(true);
 	for (int i = 1; i < 7; i++)
 	{
 		int xx = x + dx*i;
@@ -19,11 +21,11 @@ float HeuristicAdv::strength1D(Board& b, int x, int y, int color, int dx, int dy
 		{
 			if (b.board[xx][yy] == color)
 			{
-				sum++;
+				data.push_back(true);
 				used[xx][yy][type] = true;
 			}
 			else if (b.board[xx][yy] == NONE)
-				empty++;
+				data.push_back(false);
 			else
 				break;
 		}
@@ -38,11 +40,11 @@ float HeuristicAdv::strength1D(Board& b, int x, int y, int color, int dx, int dy
 		{
 			if (b.board[xx][yy] == color)
 			{
-				sum++;
+				data.push_front(true);
 				used[xx][yy][type] = true;
 			}
 			else if (b.board[xx][yy] == NONE)
-				empty++;
+				data.push_front(false);
 			else
 				break;
 		}
@@ -50,59 +52,21 @@ float HeuristicAdv::strength1D(Board& b, int x, int y, int color, int dx, int dy
 			break;
 	}
 
-	if (sum+empty < 4) return 0;
+	if (data.size() < 4) return 0;
+	std::vector<bool> vec = { data.begin(), data.end() };
+	int minimum = 4;
+	for (int i = 0; i <= data.size() - 4; i++)
+	{
+		int sum = 0;
+		for (int j = 0; j < 4; j++)
+		{
+			if (vec[i + j] == false)
+				sum++;
+		}
+		minimum = std::min(minimum, sum);
+	}
 
-	//////////////////////////////////////////simple
-	//sum = 1;
-	//int block = 0;
-	//for (int i = 1; i < 4; i++)
-	//{
-	//	int xx = x + dx*i;
-	//	int yy = y + dy*i;
-	//	if (xx >= 0 && yy >= 0 && xx < 7 && yy < 6)
-	//	{
-	//		if (b.board[xx][yy] == color)
-	//		{
-	//			sum++;
-	//			used[xx][yy][type] = true;
-	//		}
-	//		else
-	//		{
-	//			if (b.board[xx][yy] == NONE) block++;
-	//			break;
-	//		}
-	//	}
-	//}
-	//for (int i = 1; i < 4; i++)
-	//{
-	//	int xx = x - dx*i;
-	//	int yy = y - dy*i;
-	//	if (xx >= 0 && yy >= 0 && xx < 7 && yy < 6)
-	//	{
-	//		if (b.board[xx][yy] == color)
-	//		{
-	//			sum++;
-	//			used[xx][yy][type] = true;
-	//		}
-	//		else
-	//		{
-	//			if (b.board[xx][yy] == NONE) block++;
-	//			break;
-	//		}
-	//	}
-	//}
-	//used[x][y][type] = true;
-	//if (block == 0) return 0;
-	//else return params[(sum - 1) * 2 + block - 1];
-	////////////////////////////////////////////////////////
-
-
-
-
-
-	used[x][y][type] = true;
-	float score = sum + 0.3f*empty;
-	return score;
+	return params[(4 - minimum)];
 }
 
 float HeuristicAdv::strength(Board& b, int x, int y, int color)

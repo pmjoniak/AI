@@ -74,7 +74,7 @@ namespace connect4_web
 			if(value == "User's turn.")
 			{
                 PerfectMove pm = new PerfectMove(board);
-                int idx = pm.findPerfectMove(Board.RED, 5);
+                int idx = pm.findPerfectMove(Board.RED, 7);
                 board.move(idx, out idx_tmp);
 				web_browser.InvokeScript("dropIt", idx);
 				zombie.IsEnabled = false;

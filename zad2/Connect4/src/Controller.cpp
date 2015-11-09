@@ -25,7 +25,6 @@ void Controller::process()
 			std::cout << "Draw!!\n";
 			board.win = RED;
 		}
-
 	}
 }
 
@@ -36,4 +35,5 @@ void Controller::drop(int idx)
 	board.move(idx, i);
 	if (board.win != NONE)
 		std::cout << "Player: " << (board.win == YELLOW ? "YELLOW" : "RED") << " win!!\n";
+	std::cout << h->h(board, YELLOW, 0) << "\n";
 }
