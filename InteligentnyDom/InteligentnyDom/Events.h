@@ -15,7 +15,8 @@ enum class Events
 	NightStarted,
 	SunStarted,
 	SunEnded,
-
+	Comfort,
+	OutOfComfort,
 
 	CloseShutters,
 	OpenShutters,

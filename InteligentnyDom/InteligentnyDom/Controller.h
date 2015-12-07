@@ -13,7 +13,8 @@ private:
 	Symulation& symulation;
 
 	float td = 20;
-	float t_hist = 3;
+	float td_hist = 2;
+	float tconf_hist = 4;
 	float time_speed = 3600;
 
 

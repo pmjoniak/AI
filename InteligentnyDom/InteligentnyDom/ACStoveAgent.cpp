@@ -3,59 +3,25 @@
 ACStoveAgent::ACStoveAgent(Controller* controller)
 	:Agent(controller)
 {
-	state = 11;
-	gamma[1][EventType::TooHot] = 3;
-	gamma[1][EventType::SummerStarted] = 2;
-	gamma[1][EventType::WindowOpened] = 6;
+	state = 1;
 
-	gamma[2][EventType::TooHot] = 4;
-	gamma[2][EventType::WinterStarted] = 1;
-	gamma[2][EventType::WindowOpened] = 5;
+	gamma[1][EventType::TooCold] = 2;
+	gamma[1][EventType::TooHot] = 3;
+	gamma[1][EventType::Comfort] = 4;
+
+	gamma[2][EventType::TooHot] = 1;
+	gamma[2][EventType::Comfort] = 6;
 
 	gamma[3][EventType::TooCold] = 1;
-	gamma[3][EventType::SummerStarted] = 4;
-	gamma[3][EventType::WindowOpened] = 6;
+	gamma[3][EventType::Comfort] = 5;
 
-	gamma[4][EventType::TooCold] = 2;
-	gamma[4][EventType::WinterStarted] = 3;
-	gamma[4][EventType::WindowOpened] = 5;
+	gamma[4][EventType::OutOfComfort] = 1;
 
-	gamma[5][EventType::TooHot] = 10;
-	gamma[5][EventType::WinterStarted] = 6;
-	gamma[5][EventType::WindowClosed] = 7;
+	gamma[5][EventType::TooCold] = 4;
+	gamma[6][EventType::TooHot] = 4;
 
-	gamma[6][EventType::TooHot] = 9;
-	gamma[6][EventType::TooCold] = 8;
-	gamma[6][EventType::WindowClosed] = 11;
-
-	gamma[7][EventType::TooHot] = 4;
-	gamma[7][EventType::TooCold] = 2;
-	gamma[7][EventType::WinterStarted] = 11;	
-	gamma[7][EventType::WindowOpened] = 5;
-	
-	gamma[8][EventType::TooHot] = 6;
-	gamma[8][EventType::SummerStarted] = 12;
-	gamma[8][EventType::WindowClosed] = 1;
-	
-	gamma[9][EventType::TooCold] = 1;
-	gamma[9][EventType::SummerStarted] = 10;
-	gamma[9][EventType::WindowClosed] = 3;
-
-	gamma[10][EventType::TooCold] = 5;
-	gamma[10][EventType::WinterStarted] = 9;
-	gamma[10][EventType::WindowClosed] = 4;
-
-	gamma[11][EventType::TooHot] = 3;
-	gamma[11][EventType::TooCold] = 1;
-	gamma[11][EventType::SummerStarted] = 7;
-	gamma[11][EventType::WindowOpened] = 6;
-
-	gamma[12][EventType::TooHot] = 5;
-	gamma[12][EventType::WinterStarted] = 8;
-	gamma[12][EventType::WindowClosed] = 2;
-
-	int stove_on[] = { 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 };
-	int ac_on[] =    { 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0 };
+	int stove_on[] = { 0, 1, 0, 0, 0, 1 };
+	int ac_on[] = { 0, 0, 1, 0, 1, 0 };
 
 	for (auto& entry1 : gamma)
 	{

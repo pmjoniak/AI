@@ -60,10 +60,15 @@ void Controller::update(double delta_time)
 			sendEvent(EventType::WinterStarted);
 
 
-	if (symulation.getInsideTemerature() > td + t_hist)
+	if (symulation.getInsideTemerature() > td + td_hist)
 		sendEvent(EventType::TooHot);
-	if (symulation.getInsideTemerature() < td - t_hist)
+	if (symulation.getInsideTemerature() < td - td_hist)
 		sendEvent(EventType::TooCold);
+
+	if (std::abs(symulation.getInsideTemerature() - td) < tconf_hist)
+		sendEvent(EventType::Comfort);
+	else
+		sendEvent(EventType::OutOfComfort);
 
 
 	last_window_state = symulation.isWindowOpen();
