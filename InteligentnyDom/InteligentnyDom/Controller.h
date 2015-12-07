@@ -12,9 +12,9 @@ private:
 	std::vector<std::unique_ptr<Agent>> agents;
 	Symulation& symulation;
 
-	float td = 23;
+	float td = 20;
 	float t_hist = 3;
-	float time_speed = 100;
+	float time_speed = 3600;
 
 
 	bool last_rain_state;
@@ -39,8 +39,8 @@ public:
 
 	void setTimeSpeed(float speed);
 	float getTimeSpeed();
-	void setTimeSpeed(float speed);
-	float getTimeSpeed();
-	void setTimeSpeed(float speed);
-	float getTimeSpeed();
+	void setTd(float td);
+	float getTd();
+	void setTempOut(float out);
+	float getTempOut();
 };

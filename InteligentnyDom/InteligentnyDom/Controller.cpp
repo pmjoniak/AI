@@ -2,6 +2,7 @@
 #include "WindowAgent.h"
 #include "ShutterAgent.h"
 #include "ACStoveAgent.h"
+#include <iostream>
 
 Controller::~Controller()
 {
@@ -16,7 +17,7 @@ Controller::Controller(Symulation& symulation)
 
 	last_window_state = symulation.isWindowOpen();
 	last_rain_state = symulation.isRaining();
-	last_summer_state = symulation.getOutsideTemerarure() > symulation.getOutsideTemerarure();
+	last_summer_state = symulation.getOutsideTemerarure() > symulation.getInsideTemerature();
 	last_day_state = symulation.isDay();
 	last_sun_state = symulation.isSun();
 }
@@ -51,7 +52,7 @@ void Controller::update(double delta_time)
 		else
 			sendEvent(EventType::SunEnded);
 
-	bool new_summer_state = symulation.getOutsideTemerarure() > symulation.getOutsideTemerarure();
+	bool new_summer_state = symulation.getOutsideTemerarure() > symulation.getInsideTemerature();
 	if (last_summer_state != new_summer_state)
 		if (new_summer_state)
 			sendEvent(EventType::SummerStarted);
@@ -67,9 +68,14 @@ void Controller::update(double delta_time)
 
 	last_window_state = symulation.isWindowOpen();
 	last_rain_state = symulation.isRaining();
-	last_summer_state = symulation.getOutsideTemerarure() > symulation.getOutsideTemerarure();
+	last_summer_state = symulation.getOutsideTemerarure() > symulation.getInsideTemerature();
 	last_day_state = symulation.isDay();
 	last_sun_state = symulation.isSun();
+
+	if (!symulation.isCooling() && !symulation.isHeating())
+	{
+		std::cout << "cookie!";
+	}
 }
 
 void Controller::setTimeSpeed(float speed)
@@ -116,4 +122,24 @@ void Controller::receiveEvent(EventType event_name)
 		symulation.stoveOn();
 	if (event_name == EventType::StoveOff)
 		symulation.stoveOff();
+}
+
+void Controller::setTd(float td)
+{
+	this->td = td;
+}
+
+float Controller::getTd()
+{
+	return td;
+}
+
+void Controller::setTempOut(float out)
+{
+	return symulation.forceTempOut(out);
+}
+
+float Controller::getTempOut()
+{
+	return symulation.getOutsideTemerarure();
 }

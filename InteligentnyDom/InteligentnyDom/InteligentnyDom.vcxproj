@@ -53,7 +53,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include\;..\include\freetype2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,6 +84,8 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FontPrinting.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ShutterAgent.h" />
     <ClInclude Include="Symulation.h" />
@@ -93,6 +95,8 @@
     <ClCompile Include="ACStoveAgent.cpp" />
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontPrinting.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ShutterAgent.cpp" />
@@ -101,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\glfw3dll.lib" />
+    <Library Include="..\lib\libfreetype.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

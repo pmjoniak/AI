@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include "Symulation.h"
 #include "Controller.h"
+#include "Font.h"
 
 class Renderer
 {
@@ -21,7 +22,7 @@ private:
 	int width;
 	int height;
 	int cx, cy;
-
+	Font font;
 	
 public:
 	Renderer(Symulation& symulation, int width, int height);
@@ -34,7 +35,18 @@ private:
 	std::shared_ptr<Controller> controller;
 	Symulation& symulation;
 
-	void drawBoard();
+	void drawDay();
+	void drawSun();
+	void drawRain();
+	void drawStove();
+	void drawAC();
+	void drawWindow();
+	void drawShutters();
+	void showTemperatures();
+	void drawButtons();
+
+	void circle(float x, float y, float r);
+	void box(float x, float y, float w, float h);
 
 private:
 	void handleCharCallback(unsigned int codepoint);

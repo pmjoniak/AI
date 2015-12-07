@@ -15,6 +15,11 @@ void Symulation::update(double delta_time)
 	if (cooling)
 		t_in -= 6*delta_time_h;
 
+	if (heating)
+		energy_consumption += delta_time_h;
+	if (cooling)
+		energy_consumption += delta_time_h;
+
 	if (window_opened)
 		t_in += (t_out - t_in)*delta_time_h / 2;
 	else
@@ -25,7 +30,7 @@ void Symulation::update(double delta_time)
 	//rain
 	if (!raining)
 	{
-		if ((rand() % 10000) / 10000.0f < 0.15*delta_time_h)
+		if ((rand() % 10000) / 10000.0f < 0.1*delta_time_h)
 		{
 			raining = true;
 			sun = false;
@@ -35,7 +40,7 @@ void Symulation::update(double delta_time)
 	else
 	{
 		since_raining_start += delta_time;
-		if ((rand() % 10000) / 10000.0f < (since_raining_start / (60 * 60)) / 5)
+		if ((rand() % 10000) / 10000.0f < (since_raining_start / (60 * 60)) / 20)
 		{
 			raining = false;
 		}
@@ -46,7 +51,7 @@ void Symulation::update(double delta_time)
 
 	if (!sun && day && !raining)
 	{
-		if ((rand() % 10000) / 10000.0f < 0.3*delta_time_h)
+		if ((rand() % 10000) / 10000.0f < 0.4*delta_time_h)
 		{
 			sun = true;
 			since_sun_start = 0;
@@ -55,9 +60,14 @@ void Symulation::update(double delta_time)
 	if (sun)
 	{
 		since_sun_start += delta_time;
-		if ((rand() % 10000) / 10000.0f < (since_sun_start / (60 * 60)) / 7)
+		if ((rand() % 10000) / 10000.0f < (since_sun_start / (60 * 60)) / 40)
 			sun = false;
 	}
+}
+
+float Symulation::getEnergyConsumption()
+{
+	return energy_consumption;
 }
 
 void Symulation::forceRain(bool state)
@@ -84,6 +94,11 @@ bool Symulation::isRaining()
 bool Symulation::isDay()
 {
 	return day;
+}
+
+float Symulation::getDayPercentage()
+{
+	return time / (24 * 60 * 60);
 }
 
 bool Symulation::isWindowOpen()
@@ -144,8 +159,13 @@ bool Symulation::isSun()
 
 void Symulation::forceSun(bool state)
 {
-	if (day)
+	if (day && !raining)
 		sun = state;
+}
+
+void Symulation::forceTempOut(float temp)
+{
+	t_out = temp;
 }
 
 void Symulation::ACOn()

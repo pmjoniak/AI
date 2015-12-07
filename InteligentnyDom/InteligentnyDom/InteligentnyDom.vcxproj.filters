@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Agents">
       <UniqueIdentifier>{45984c6e-01f2-459e-bdc7-ebdb98d7fa55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Fonts">
+      <UniqueIdentifier>{bdf060c5-120e-4322-ac72-0e490f249542}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Symulation.h">
@@ -41,6 +44,12 @@
     </ClInclude>
     <ClInclude Include="ACStoveAgent.h">
       <Filter>Source Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Source Files\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="FontPrinting.h">
+      <Filter>Source Files\Fonts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,8 +77,15 @@
     <ClCompile Include="ACStoveAgent.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Source Files\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="FontPrinting.cpp">
+      <Filter>Source Files\Fonts</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="..\lib\glfw3dll.lib" />
+    <Library Include="..\lib\libfreetype.lib" />
   </ItemGroup>
 </Project>

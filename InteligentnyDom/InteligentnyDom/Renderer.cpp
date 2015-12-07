@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include <cmath>
+#include "FontPrinting.h"
 
 Renderer::Renderer(Symulation& symulation, int width, int height) : width{ width }, height{ height }, symulation{ symulation }
 {
@@ -36,6 +37,19 @@ void Renderer::handleKeyCallback(int key, int scancode, int action, int mods)
 {
 	if (action == GLFW_PRESS && key == GLFW_KEY_ESCAPE)
 		glfwSetWindowShouldClose(window, 1);
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_Q)
+		controller->setTempOut(controller->getTempOut() - 1);
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_W)
+		controller->setTempOut(controller->getTempOut() + 1);
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_A)
+		controller->setTd(controller->getTd() - 1);
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_S)
+		controller->setTd(controller->getTd() + 1);
+
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_Z)
+		controller->setTimeSpeed(controller->getTimeSpeed()*0.9);
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_X)
+		controller->setTimeSpeed(controller->getTimeSpeed()*1.1);
 	(void)key;
 	(void)scancode;
 	(void)action;
@@ -47,10 +61,14 @@ void Renderer::handleMouseButtonCallback(int button, int action, int mods)
 	(void)mods;
 	if (action == GLFW_RELEASE && button == GLFW_MOUSE_BUTTON_LEFT)
 	{
-		if (cy > 30 && cy < 450 && cx > 30 && cx < 450)
-		{
-
-		}
+		if (cx > 355 && cx < 355 + 90 && cy > 205 && cy < 205 + 90)
+			controller->forceRain(true);
+		if (cx > 455 && cx < 455 + 90 && cy > 205 && cy < 205 + 90)
+			controller->forceRain(false);
+		if (cx > 355 && cx < 355 + 90 && cy > 305 && cy < 305 + 90)
+			controller->forceSun(true);
+		if (cx > 455 && cx < 455 + 90 && cy > 305 && cy < 305 + 90)
+			controller->forceSun(false);
 	}
 	else if (action == GLFW_PRESS && button == GLFW_MOUSE_BUTTON_RIGHT)
 	{
@@ -70,10 +88,11 @@ void Renderer::run()
 	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	font.Height = 12;
+	font.Load("DejaVuSans.ttf");
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glMatrixMode(GL_PROJECTION);
@@ -87,8 +106,15 @@ void Renderer::run()
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		drawBoard();
-		//drawGrid(4, 4);
+		drawDay();
+		drawRain();
+		drawSun();
+		drawStove();
+		drawAC();
+		drawWindow();
+		drawShutters();
+		showTemperatures();
+		drawButtons();
 
 		controller->update(0.05);
 
@@ -101,37 +127,204 @@ void Renderer::run()
 }
 
 
-void Renderer::drawBoard()
+void Renderer::drawDay()
 {
-	for (int x = 0; x < 7; x++)
-	{
-		for (int y = 0; y < 6; y++)
-		{
-			glPushMatrix();
-
-			glColor3f(0, 0, 1);
-			glTranslatef(x * 60.0f + 30 + 30, 480 - (y * 60.0f + 30 + 30),0);
-			glBegin(GL_QUADS);
-				glVertex3f(-30, -30, -0.01f);
-				glVertex3f(30, -30, - 0.01f);
-				glVertex3f(30, 30, -0.01f);
-				glVertex3f(-30, 30, -0.01f);
-			glEnd();
-
-			glColor3f(0, 0, 0);
-
-			glBegin(GL_TRIANGLE_FAN);
-				glVertex2f(0, 0);
-				for (float a = 0; a <= 2 * 3.3; a += 0.1f)
-					glVertex2f(25 * std::cos(a), 25 * std::sin(a));
-			glEnd();
-
-			glPopMatrix();
-		}
-	}
-
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	box(48, 48, 204, 54);
+	glTranslatef(0, 0, 0.01);
+	glColor3f(1, 1, 1);
+	box(50, 50, 200, 50);
+	glTranslatef(0, 0, 0.01);
+	glColor3f(0, 0, 0.6);
+	float day = symulation.getDayPercentage();
+	box(50, 50, 200 * (day > 0.5 ? 0.5 : day), 50);
+	glColor3f(1, 0.8, 0);
+	if (day > 0.5)
+		box(150, 50, 200 * (day - 0.5), 50);
+	glPopMatrix();
 }
 
+void Renderer::drawRain()
+{
+	if (!symulation.isRaining()) return;
+	glPushMatrix();
+	glColor3f(0, 0.5, 1);
+	for (int i = 0; i < 10; i++)
+	{
+		float x = 60 + rand() % 80;
+		float y = 110 + rand() % 80;
+		float r = 6 + rand() % 6;
+		circle(x, y, r);
+	}
+	glPopMatrix();
+}
+
+void Renderer::drawSun()
+{
+	if (!symulation.isSun()) return;
+	glPushMatrix();
+	glColor3f(1, 1, 0);
+	circle(200, 150, 40);
+	glTranslatef(200, 150, 0);
+	glLineWidth(4);
+	glBegin(GL_LINES);
+	for (float a = 0; a <= 2 * 3.3; a += 0.7f)
+	{
+		glVertex2f(0, 0);
+		glVertex2f(50 * std::cos(a), 50 * std::sin(a));
+	}
+	glEnd();
+	glLineWidth(1);
+	glPopMatrix();
+}
+
+void Renderer::drawStove()
+{
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	box(55, 205, 90, 90);
+	glTranslatef(0, 0, 0.01);
+	if (symulation.isHeating())
+		glColor3f(1, 0, 0);
+	else
+		glColor3f(0, 0, 1);
+	box(65, 215, 70, 70);
+	glPopMatrix();
+}
+
+void Renderer::drawAC()
+{
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	box(155, 205, 90, 40);
+	glTranslatef(0, 0, 0.01);
+	glColor3f(1, 1, 1);
+	box(165, 209, 70, 8);
+	box(165, 221, 70, 8);
+	box(165, 233, 70, 8);
+
+	if (symulation.isCooling())
+	{
+		glColor3f(0, 1, 0);
+		glLineWidth(4);
+		glTranslatef(200, 285, 0);
+		glBegin(GL_LINES);
+		glVertex2f(0, 0);
+		glVertex2f(-10, -10);
+
+		glVertex2f(0, 0);
+		glVertex2f(20, -15);
+		glEnd();
+	}
+	else
+	{
+		glColor3f(1, 0, 0);
+		glLineWidth(2);
+		glTranslatef(200, 275, 0);
+		glBegin(GL_LINES);
+		glVertex2f(-10, -10);
+		glVertex2f(10, 10);
+
+		glVertex2f(10, -10);
+		glVertex2f(-10, 10);
+		glEnd();
+	}
+	glLineWidth(1);
+	glPopMatrix();
+}
+
+void Renderer::drawWindow()
+{
+	glPushMatrix();
+	glColor3f(0, 0, 0);
+	glLineWidth(4);
+	glBegin(GL_LINES);
+	glVertex2f(70, 310);
+	glVertex2f(70, 330);
+
+	if (symulation.isWindowOpen())
+	{
+		glVertex2f(100, 333);
+		glVertex2f(70, 390);
+	}
+	else
+	{
+		glVertex2f(70, 333);
+		glVertex2f(70, 390);
+	}
+	glEnd();
+	glLineWidth(1);
+	glPopMatrix();
+}
+
+void Renderer::drawShutters()
+{
+	glPushMatrix();
+	if (symulation.isShutterOpen())
+		glLineWidth(1);
+	else
+		glLineWidth(8);
+
+	for (int i = 0; i < 9; i++)
+	{
+		glBegin(GL_LINES);
+			glVertex2f(160, 300+5+i*10);
+			glVertex2f(240, 300 + 5 + i * 10);
+		glEnd();
+	}
+	glLineWidth(1);
+	glPopMatrix();
+}
+
+void Renderer::showTemperatures()
+{
+	glColor3f(0, 0, 0);
+	glPrint(&font, 320, 460, "W domu %.2f[°C].", symulation.getInsideTemerature());
+	glPrint(&font, 320, 440, "Zadana %.2f[°C]." , controller->getTd());
+	glPrint(&font, 320, 420, "Na zwewnatrz %.2f[°C].", symulation.getOutsideTemerarure());
+	glPrint(&font, 320, 400, "Zuzyta energia %.2f.", symulation.getEnergyConsumption());
+}
+
+void Renderer::drawButtons()
+{
+	glPushMatrix();
+	glColor3f(0, 1, 0.5);
+	box(355, 205, 90, 90);
+	box(455, 205, 90, 90);
+	box(355, 305, 90, 90);
+	box(455, 305, 90, 90);
+	glColor3f(0, 0, 0);
+	glPrint(&font, 360, height - 250, "Rain On");
+	glPrint(&font, 460, height - 250, "Rain Off");
+	glPrint(&font, 360, height - 350, "Sun On");
+	glPrint(&font, 460, height - 350, "Sun Off");
+
+
+	glPopMatrix();
+}
+
+void Renderer::circle(float x, float y, float r)
+{
+	glPushMatrix();
+	glTranslatef(x, y, 0);
+	glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(0, 0);
+		for (float a = 0; a <= 2 * 3.3; a += 0.1f)
+			glVertex2f(r * std::cos(a), r * std::sin(a));
+	glEnd();
+	glPopMatrix();
+}
+
+void Renderer::box(float x, float y, float w, float h)
+{
+	glBegin(GL_QUADS);
+	glVertex2f(x, y);
+	glVertex2f(x+w, y);
+	glVertex2f(x+w, y+h);
+	glVertex2f(x, y+h);
+	glEnd();
+}
 
 void Renderer::setController(std::shared_ptr<Controller> controller)
 {

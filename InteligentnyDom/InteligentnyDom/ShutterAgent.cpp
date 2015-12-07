@@ -22,8 +22,8 @@ ShutterAgent::ShutterAgent(Controller* controller)
 		for (auto& entry2 : entry1.second)
 		{
 			int s2 = entry2.second;
-			bool shutter_up1 = s1 & 2 == 0;
-			bool shutter_up2 = s1 & 2 == 0;
+			bool shutter_up1 = s1 % 2 == 0;
+			bool shutter_up2 = s2 % 2 == 0;
 			if (shutter_up1 != shutter_up2)
 			{
 				if (shutter_up1)
