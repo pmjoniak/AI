@@ -70,7 +70,9 @@ void test()
 	//h_best.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
 	h_best.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f };
 	//h_new.params = { 0.0331f, 0.1287f, 0.0316f, 0.338f, 0.4693f, 0.00061f };
-	h_new.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f };
+	//h_new.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f };
+	//h_new.params = { 2.5e-5f, 0.3f, 0.4f };
+	h_new.params = { 1, 5, 25 };
 	//h_new.params = { 0.022562f, 0.096799f, 0.1915f, 0.493391f, 0.79207f, 1.21447f };
 	std::map<int, std::unique_ptr<AIPlayer>> players;
 	players[RED] = std::make_unique<AIPlayer>(&h_best, 4);
@@ -96,18 +98,20 @@ void test()
 int main()
 {
 	//test();
-	shool();
+	//shool();
 
 	Board board(YELLOW);
 	HeuristicSimple h;
-	//h.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f  };
-	h.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
+	h.params = { 0.04117f, 0.715722f, 0.8098f, 2.64167f, 4.8199f, 2.7331f  };
+	//h.params = { 1.5, 2, 2.5, 3, 3.5, 4 };
 	HeuristicAdv h_adv;
-	h_adv.params = { 10, 50, 100};
+	h_adv.params = { 2.5e-5f, 0.3f, 0.4f };
+	//h_adv.params = { 1, 5, 25 };
 
 	auto controller = std::make_shared<Controller>(board);
-	controller->players[RED] = std::make_unique<AIPlayer>(&h_adv, 4);
+	controller->players[RED] = std::make_unique<AIPlayer>(&h_adv, 6);
 	//controller->players[YELLOW] = std::make_unique<AIPlayer>(&h, 6);
+	//controller->players[RED] = std::make_unique<HumanPlayer>();
 	controller->players[YELLOW] = std::make_unique<HumanPlayer>();
 
 	controller->h = &h_adv;
