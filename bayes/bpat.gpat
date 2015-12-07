@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<pattern version="1.0">
+	<variable id="age" position="196 175 268 223" discrete="true">
+		<state id="s1_below_24" />
+		<state id="s2_24_38" />
+		<state id="s3_38_48" />
+		<state id="s4_48_66" />
+		<state id="s5_66_78" />
+		<state id="s6_78_up" />
+	</variable>
+	<variable id="workclass" position="682 146 754 194" discrete="true">
+		<state id="S_" />
+		<state id="SFederal_gov" />
+		<state id="SLocal_gov" />
+		<state id="SNever_worked" />
+		<state id="Private" />
+		<state id="SSelf_emp_inc" />
+		<state id="SSelf_emp_not_inc" />
+		<state id="SState_gov" />
+		<state id="SWithout_pay" />
+	</variable>
+	<variable id="Veducation_num" position="423 67 495 115" discrete="true">
+		<state id="State1" />
+		<state id="State2" />
+		<state id="State3" />
+		<state id="State4" />
+		<state id="State5" />
+		<state id="State6" />
+		<state id="State7" />
+		<state id="State8" />
+		<state id="State9" />
+		<state id="State10" />
+		<state id="State11" />
+		<state id="State12" />
+		<state id="State13" />
+		<state id="State14" />
+		<state id="State15" />
+		<state id="State16" />
+	</variable>
+	<variable id="Vmarital_status" position="206 84 278 132" discrete="true">
+		<state id="Divorced" />
+		<state id="SMarried_AF_spouse" />
+		<state id="SMarried_civ_spouse" />
+		<state id="SMarried_spouse_absent" />
+		<state id="SNever_married" />
+		<state id="Separated" />
+		<state id="Widowed" />
+	</variable>
+	<variable id="occupation" position="524 151 596 199" discrete="true">
+		<state id="S_" />
+		<state id="SAdm_clerical" />
+		<state id="SArmed_Forces" />
+		<state id="SCraft_repair" />
+		<state id="SExec_managerial" />
+		<state id="SFarming_fishing" />
+		<state id="SHandlers_cleaners" />
+		<state id="SMachine_op_inspct" />
+		<state id="SOther_service" />
+		<state id="SPriv_house_serv" />
+		<state id="SProf_specialty" />
+		<state id="SProtective_serv" />
+		<state id="Sales" />
+		<state id="STech_support" />
+		<state id="STransport_moving" />
+	</variable>
+	<variable id="relationship" position="323 138 395 186" discrete="true">
+		<state id="Husband" />
+		<state id="SNot_in_family" />
+		<state id="SOther_relative" />
+		<state id="SOwn_child" />
+		<state id="Unmarried" />
+		<state id="Wife" />
+	</variable>
+	<variable id="race" position="312 308 384 356" discrete="true">
+		<state id="SAmer_Indian_Eskimo" />
+		<state id="SAsian_Pac_Islander" />
+		<state id="Black" />
+		<state id="Other" />
+		<state id="White" />
+	</variable>
+	<variable id="sex" position="428 200 500 248" discrete="true">
+		<state id="Female" />
+		<state id="Male" />
+	</variable>
+	<variable id="Vhours_per_week" position="207 271 279 319" discrete="true">
+		<state id="s1_below_16" />
+		<state id="s2_16_34" />
+		<state id="s3_34_52" />
+		<state id="s4_52_79" />
+		<state id="s5_79_93" />
+		<state id="s6_93_up" />
+	</variable>
+	<variable id="Vnative_country" position="259 403 331 451" discrete="true">
+		<state id="S_" />
+		<state id="Cambodia" />
+		<state id="Canada" />
+		<state id="China" />
+		<state id="Columbia" />
+		<state id="Cuba" />
+		<state id="SDominican_Republic" />
+		<state id="Ecuador" />
+		<state id="SEl_Salvador" />
+		<state id="England" />
+		<state id="France" />
+		<state id="Germany" />
+		<state id="Greece" />
+		<state id="Guatemala" />
+		<state id="Haiti" />
+		<state id="SHoland_Netherlands" />
+		<state id="Honduras" />
+		<state id="Hong" />
+		<state id="Hungary" />
+		<state id="India" />
+		<state id="Iran" />
+		<state id="Ireland" />
+		<state id="Italy" />
+		<state id="Jamaica" />
+		<state id="Japan" />
+		<state id="Laos" />
+		<state id="Mexico" />
+		<state id="Nicaragua" />
+		<state id="SOutlying_US_Guam_USVI_etc_" />
+		<state id="Peru" />
+		<state id="Philippines" />
+		<state id="Poland" />
+		<state id="Portugal" />
+		<state id="SPuerto_Rico" />
+		<state id="Scotland" />
+		<state id="South" />
+		<state id="Taiwan" />
+		<state id="Thailand" />
+		<state id="STrinadad_Tobago" />
+		<state id="SUnited_States" />
+		<state id="Vietnam" />
+		<state id="Yugoslavia" />
+	</variable>
+	<variable id="pay" position="428 316 500 364" discrete="true">
+		<state id="Slower50K" />
+		<state id="Sgreater50K" />
+	</variable>
+	<undirected from="age" to="Vmarital_status" />
+	<directed from="age" to="relationship" />
+	<undirected from="age" to="Vhours_per_week" />
+	<directed from="occupation" to="workclass" />
+	<undirected from="Veducation_num" to="occupation" />
+	<directed from="relationship" to="Veducation_num" />
+	<directed from="sex" to="Veducation_num" />
+	<directed from="relationship" to="occupation" />
+	<directed from="sex" to="occupation" />
+	<undirected from="occupation" to="pay" />
+	<directed from="sex" to="relationship" />
+	<directed from="relationship" to="pay" />
+	<undirected from="race" to="Vnative_country" />
+	<directed from="sex" to="pay" />
+	<directed from="race" to="pay" />
+</pattern>

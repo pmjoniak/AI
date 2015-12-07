@@ -1,0 +1,73 @@
+Sprawozdanie z zadania z sieci Bayesowskich.
+
+1. Temat/dane
+
+Dane są statystyką zarobków ludzi wraz z informacjami o ich życiu.
+Zarobki są podzielone na dwie klasy - poniżej i powyżej 50.000$ rocznie (około 12 tyś zł miesięcznie).
+Wpisy danych zawierają następujące informacje o przebadanych osobach:
+- wiek
+- sektor zatrudnienia
+- poziom edukacji
+- status małżeński
+- stanowisko w pracy
+- status roziny
+- rasa
+- płeć
+- ilość godzin pracy tygodniowo
+- kraj pochodzenia
+- płaca
+
+Źródłem danych jest strona http://archive.ics.uci.edu/ml/machine-learning-databases/adult/
+
+2. Opis budowy siecie przekonań
+
+Najpierw dokonałem dyskretyzacji danych:
+- podzieliłem wiek na 6 klas
+- podzieliłem ilość godzin w tygodniu na 6 klas
+
+Programem do automatycznej generacji sieci bayesowskiej przeprowadziłem wstępną analizę zależności atrybutów.
+
+W otrzymanej sieci wprowadziłem kilka poprawek:
+- odwróciłem niektóre strzałki tak, by nie istniały zależności wchodzące do niezmiennych cech osób, takich jak wiek i płeć
+- usunąłem też zależności pozorne - na przykład właśnie pomiędzy wiekiem i płcią
+- dokonałem kilku eksperymentów z dodaniem dodatkowych strzałek (na przykład pomiędzy rasą i płacą), jednak nie przyniosły one pozytywnych rezultatów.
+
+3. Użyte narzędzie
+
+Użytym narzędziem było Genie - jest to wygodne narzędzie umożliwiające zarówno automatyczne uczenie sieci, operowanie na niej, jak i tworzenie grafów wpływów.
+
+4. Załączony widok sieci
+(siec.png)
+
+5. Weryfikacja poprawności działania sieci
+W fazie weryfikacji dokonałem kilku eksperymentów, których wynik powinien być zgodny ze zdrowym rozsądkiem:
+Najpierw sprawdziłem z powodzeniem bliskie sobie węzły:
+- status małżeński w logiczny sposób zależy od wieku
+- w Siłach Zbrojnych są prawie tylko mężczyźni
+
+Następnie sprawdziłem dalsze, ale logiczne powiązania:
+- wyższa edukacja daje większe zarobki
+- osoby młode nie otrzymują dużych zarobków
+
+6. Przykładowe zapytanie probabilistyczne
+
+Jaki status małżeński mają męscy farmerzy zarabiający powyżej 50k$? 
+W 91% są żonaci.
+
+W jakim wieku są rozwódki mające dziecko?
+W 80% mają one poniżej 24 lat.
+
+7. Opracowanie decyzji i użyteczności
+
+By dodać do sieci decyzję należy użyć zielonego prostokąta, by dodać użyteczność - niebieskiego sześcioboku. 
+Następnie należy ustawić możliwe do podjęcia decyzje.
+W €zyceczności należy ustawić wartości/koszty poszczególnych decyzji wraz z ich wynikami.
+
+8. Przykładowe obliczenie decyzji
+
+Mężczyzna chciałby wiele zarabiać, ale wolałby nie wchodzić w związek (żeby nie musieć się dzielić), chyba, że przyniesie mu to dużą korzyść.
+Ustawia więc wartości:
+Husband, <50k:		-500
+Unmarried, <50k:	-250
+Husband, >50k:		500
+Unmarried, >50k:	1000
