@@ -1,0 +1,5 @@
+board_file board.txt
+gamma 0.9
+e 0.05
+iteracja_wartosci 1
+q_learning 0

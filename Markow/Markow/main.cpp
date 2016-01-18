@@ -176,28 +176,37 @@ void Q_learning(Board& board, std::string path_result)
 			return rand() % 4;
 	};
 
+
+	//for (int y = 0; y < board.m; y++)
+	//	for (int x = 0; x < board.n; x++)
+	//		for (int a = 0; a < 4; a++)
+	//			if (board.T(x,y))
+	//				Q[x][y][a] = board.R(x, y);
+
 	bool start = true;
 	int l_a=-1;
 	int l_x = board.start_x;
 	int l_y = board.start_y;
 	double l_r = -1;
 	int resets = 0;
-	for (int i = 0; i < 100000000; i++)
+	for (int i = 0; i < 10000000; i++)
 	{
-		//if (board.T(board.cx, board.cy))
+		//if (board.T(l_x, l_y))
 		//{
 		//	for (int a = 0; a < 4; a++)
-		//		Q[board.cx][board.cy][a] = board.R(board.cx, board.cy);
+		//		Q[l_x][l_y][a] = board.R(board.cx, board.cy);
 		//}
 		if (!start)
 		{
 			N[l_x][l_y][l_a]++;
-			//double alpha = 1.0 / std::pow(N[l_x][l_y][l_a],0.6);
+			//double alpha = 1.0 / std::pow(N[l_x][l_y][l_a],0.4);
 			double alpha = 1.0 / N[l_x][l_y][l_a];
+			//double alpha = 0.1;
 			double max_a = -std::numeric_limits<double>::max();
 			for (int a = 0; a < 4; a++)
 				max_a = std::max(max_a, Q[board.cx][board.cy][a]);
 			double dq = alpha * (board.R(board.cx, board.cy) + gamma * max_a - Q[l_x][l_y][l_a]);
+			//double dq = alpha * (l_r + gamma * max_a - Q[l_x][l_y][l_a]);
 			Q[l_x][l_y][l_a] += dq;
 			//if (std::abs(dq) > 0.0001)
 			//	std::cout << dq << "\n";
@@ -207,18 +216,7 @@ void Q_learning(Board& board, std::string path_result)
 			board.reset();
 			resets++;
 			start = true;
-			//std::cout << "restets: " << resets << "\n";
-			//for (int y = 0; y < board.m; y++)
-			//{
-			//	for (int x = 0; x < board.n; x++)
-			//	{
-			//		std::cout << std::setprecision(3) << std::setw(6) << Q[x][board.m - y - 1][getBestA(x, board.m - y - 1)] << ", ";
-			//	}
-			//	std::cout << "\n";
-			//}
-			//std::cout << "\n";
-			//std::cout << "\n";
-			if (resets % 1000 == 0)
+			if (resets % 500 == 0)
 			{
 				for (int y = 0; y < board.m; y++)
 					for (int x = 0; x < board.n; x++)
@@ -238,7 +236,7 @@ void Q_learning(Board& board, std::string path_result)
 		//		Q[board.cx][board.cy][a] = board.R(board.cx, board.cy);
 		//}
 		start = false;
-		if (i % 10000 == 0) std::cout << i << "\n";
+		if (i % 100000 == 0) std::cout << i << "\n";
 	}
 	std::ofstream out(path_result);
 	out << "Przebiegow: " << resets << "\n";
