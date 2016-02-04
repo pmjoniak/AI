@@ -6,6 +6,7 @@
 
 double gamma = 1;
 double e = 0.4;
+int iterations = 1000000;
 
 void showU(std::ostream& out, std::vector<std::vector<double>>& U, Board& board)
 {
@@ -189,15 +190,30 @@ void Q_learning(Board& board, std::string path_result)
 	int l_y = board.start_y;
 	double l_r = -1;
 	int resets = 0;
-	for (int i = 0; i < 10000000; i++)
+	for (int i = 0; i < 30000000; i++)
 	{
-		//if (board.T(l_x, l_y))
-		//{
-		//	for (int a = 0; a < 4; a++)
-		//		Q[l_x][l_y][a] = board.R(board.cx, board.cy);
-		//}
+		//bool t = board.T(board.cx, board.cy);
 		if (!start)
 		{
+			if (board.T(l_x, l_y))
+			{
+				board.reset();
+				resets++;
+				start = true;
+				Q[l_x][l_y][0] = l_r;
+				Q[l_x][l_y][1] = l_r;
+				Q[l_x][l_y][2] = l_r;
+				Q[l_x][l_y][3] = l_r;
+				if (resets % 500 == 0)
+				{
+					for (int y = 0; y < board.m; y++)
+						for (int x = 0; x < board.n; x++)
+							U[x][y] = Q[x][y][getBestA(x, y)];
+					U_h.push_back(U);
+				}
+				continue;
+			}
+
 			N[l_x][l_y][l_a]++;
 			//double alpha = 1.0 / std::pow(N[l_x][l_y][l_a],0.4);
 			double alpha = 1.0 / N[l_x][l_y][l_a];
@@ -205,26 +221,29 @@ void Q_learning(Board& board, std::string path_result)
 			double max_a = -std::numeric_limits<double>::max();
 			for (int a = 0; a < 4; a++)
 				max_a = std::max(max_a, Q[board.cx][board.cy][a]);
-			double dq = alpha * (board.R(board.cx, board.cy) + gamma * max_a - Q[l_x][l_y][l_a]);
-			//double dq = alpha * (l_r + gamma * max_a - Q[l_x][l_y][l_a]);
+			//if (t)
+			//	max_a = board.R(board.cx, board.cy);
+
+			//double dq = alpha * (board.R(board.cx, board.cy) + gamma * max_a - Q[l_x][l_y][l_a]);
+			double dq = alpha * (l_r + gamma * max_a - Q[l_x][l_y][l_a]);
 			Q[l_x][l_y][l_a] += dq;
 			//if (std::abs(dq) > 0.0001)
 			//	std::cout << dq << "\n";
 		}
-		if (board.T(board.cx, board.cy))
-		{
-			board.reset();
-			resets++;
-			start = true;
-			if (resets % 500 == 0)
-			{
-				for (int y = 0; y < board.m; y++)
-					for (int x = 0; x < board.n; x++)
-						U[x][y] = Q[x][y][getBestA(x, y)];
-				U_h.push_back(U);
-			}
-			continue;
-		}
+		//if (board.T(board.cx, board.cy))
+		//{
+		//	board.reset();
+		//	resets++;
+		//	start = true;
+		//	if (resets % 500 == 0)
+		//	{
+		//		for (int y = 0; y < board.m; y++)
+		//			for (int x = 0; x < board.n; x++)
+		//				U[x][y] = Q[x][y][getBestA(x, y)];
+		//		U_h.push_back(U);
+		//	}
+		//	continue;
+		//}
 		l_x = board.cx;
 		l_y = board.cy;
 		l_a = getA();
@@ -240,6 +259,21 @@ void Q_learning(Board& board, std::string path_result)
 	}
 	std::ofstream out(path_result);
 	out << "Przebiegow: " << resets << "\n";
+	out << "Q: \n";
+
+	for (int a = 0; a < 4; a++)
+	{
+		for (int y = 0; y < board.m; y++)
+		{
+			for (int x = 0; x < board.n; x++)
+			{
+				out << std::fixed << std::setprecision(2) << std::setw(6) << Q[x][board.m - y - 1][a] << ", ";
+			}
+			out << "\n";
+		}
+		out << "\n";
+	}
+
 	out << "Uzytecznosci:\n";
 	for (int y = 0; y < board.m; y++)
 	{
@@ -292,6 +326,10 @@ void loadConfig()
 		else if (param == "e")
 		{
 			in >> e;
+		}
+		else if (param == "iterations")
+		{
+			in >> iterations;
 		}
 		else if (param == "iteracja_wartosci")
 		{

@@ -150,6 +150,7 @@ public:
 
 	void move(int a)
 	{
+		if (T(cx, cy)) return;
 		auto ss = getNewS(cx, cy, a);
 		double p = (double)(rand() % 10000) / 10000.0;
 		double sum = 0;
